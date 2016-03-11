@@ -14,6 +14,8 @@ app.use(express.static('public'));
 // use app.set('views', './my-other-views');
 app.set('view engine', 'ejs');
 
+// Set up user sessions
+app.use(robChat.session);
 // Register all chatapp routes
 app.use('/', robChat.router);
 
