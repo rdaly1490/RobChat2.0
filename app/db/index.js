@@ -7,6 +7,15 @@ Mongoose.connection.on('error', (error) => {
 	console.log(`MongoDB Error: ${error}`);
 });
 
+const chatUser = new Mongoose.Schema({
+	profileID: String,
+	fullName: String,
+	profilePic: String
+});
+
+const userModel = Mongoose.model('chatUser', chatUser);
+
 module.exports = {
-	Mongoose: Mongoose
+	Mongoose: Mongoose,
+	userModel: userModel
 }

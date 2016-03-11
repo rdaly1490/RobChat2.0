@@ -1,6 +1,6 @@
 'use strict';
-
 const router = require('express').Router();
+const db = require('../db');
 
 // Iterate throught the routes here and mount them into express using
 // the express router middleware
@@ -29,6 +29,48 @@ let route = (routes) => {
 	return router;
 }
 
+// Find a single user based on an id
+let findOne = (profileID) => {
+	return db.userModel.findOne({
+		profileId: profileID
+	});
+}
+
+// Create a new user
+let createNewUser = (profileObject) => {
+	return new Promise((resolve, reject) => {
+		let newChatUser = new db.userModel({
+			profileId: profileObject.id,
+			fullName: profileObject.displayName,
+			profilePicture: profileObject.photos[0].value || ''
+		});
+
+		newChatUser.save((error) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(newChatUser);
+			}
+		})
+	})
+}
+
+// ES6 promise version of mongoose's findById
+let findById = (id) => {
+	return new Promise((resolve, reject) => {
+		db.userModel.findById(id, (error, user) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(user);
+			}
+		});
+	});
+} 
+
 module.exports = {
-	route: route
+	route: route,
+	findOne: findOne,
+	createNewUser: createNewUser,
+	findById: findById
 }

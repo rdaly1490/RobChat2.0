@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const app = express();
+const passport = require('passport');
 
 // break out app to test if later wanted to add other express instatnces for
 // things like admin portal, etc.
@@ -16,6 +17,10 @@ app.set('view engine', 'ejs');
 
 // Set up user sessions
 app.use(robChat.session);
+// hooks up passport to express req and res streams
+app.use(passport.initialize());
+// hooks up express session middleware with passport (serializeUser and deserializeUser)
+app.use(passport.session());
 // Register all chatapp routes
 app.use('/', robChat.router);
 
