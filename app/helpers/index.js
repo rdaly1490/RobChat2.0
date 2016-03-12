@@ -42,7 +42,7 @@ let createNewUser = (profileObject) => {
 		let newChatUser = new db.userModel({
 			profileId: profileObject.id,
 			fullName: profileObject.displayName,
-			profilePicture: profileObject.photos[0].value || ''
+			profilePic: profileObject.photos[0].value || ''
 		});
 
 		newChatUser.save((error) => {
@@ -68,9 +68,20 @@ let findById = (id) => {
 	});
 } 
 
+// check if user is logged in
+let isAuthenticated = (req, res, next) => {
+	// passport method
+	if (req.isAuthenticated()) {
+		next();
+	} else {
+		res.redirect('/');
+	}
+}
+
 module.exports = {
 	route: route,
 	findOne: findOne,
 	createNewUser: createNewUser,
-	findById: findById
+	findById: findById,
+	isAuthenticated: isAuthenticated
 }

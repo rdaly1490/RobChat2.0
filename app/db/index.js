@@ -8,12 +8,13 @@ Mongoose.connection.on('error', (error) => {
 });
 
 const chatUser = new Mongoose.Schema({
-	profileID: String,
+	profileId: String,
 	fullName: String,
 	profilePic: String
 });
 
-const userModel = Mongoose.model('chatUser', chatUser);
+// Turn schema into a usable model
+let userModel = Mongoose.model('chatUser', chatUser);
 
 module.exports = {
 	Mongoose: Mongoose,
