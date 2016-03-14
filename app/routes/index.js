@@ -1,6 +1,7 @@
 'use strict';
 const helpers = require('../helpers');
 const passport = require('passport');
+const config = require('../config');
 
 // Routes object for readability
 module.exports = () => {
@@ -12,12 +13,14 @@ module.exports = () => {
 			// array to insert middleware helper function
 			'/rooms': [helpers.isAuthenticated, (req, res, next) => {
 				res.render('rooms', {
-					user: req.user
+					user: req.user,
+					host: config.host
 				});
 			}],
 			'/chat': [helpers.isAuthenticated, (req, res, next) => {
 				res.render('chatroom', {
-					user: req.user
+					user: req.user,
+					host: config.host
 				});
 			}],
 			'/auth/facebook': passport.authenticate('facebook'),

@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000;
 // optional express middleware to grab static files, not included by default
 // in our app instance
 app.use(express.static('public'));
+app.use(express.static('node_modules/babel-standalone'));
 // express uses views folder by default to look for ejs files, otherwise
 // use app.set('views', './my-other-views');
 app.set('view engine', 'ejs');
@@ -24,6 +25,6 @@ app.use(passport.session());
 // Register all chatapp routes
 app.use('/', robChat.router);
 
-app.listen(port, () => {
+robChat.ioServer(app).listen(port, () => {
 	console.log(`App running on port ${port}`);
 })

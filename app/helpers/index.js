@@ -1,6 +1,7 @@
 'use strict';
 const router = require('express').Router();
 const db = require('../db');
+const crypto = require('crypto');
 
 // Iterate throught the routes here and mount them into express using
 // the express router middleware
@@ -78,10 +79,30 @@ let isAuthenticated = (req, res, next) => {
 	}
 }
 
+// Find Chatroom given name
+// TODO: Check for uppercase of same name, etc.
+let findRoomByName = (allRooms, room) => {
+	let findRoom = allRooms.findIndex((element, index, array) => {
+		if (element.room === room) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	return findRoom > -1 ? true : false;
+}
+
+// Generates a unique roomID
+let generateRandomNumber = () => {
+	crypto.randomBytes(24).toString('hex');
+}
+
 module.exports = {
 	route: route,
 	findOne: findOne,
 	createNewUser: createNewUser,
 	findById: findById,
-	isAuthenticated: isAuthenticated
+	isAuthenticated: isAuthenticated,
+	findRoomByName: findRoomByName,
+	generateRandomNumber: generateRandomNumber
 }
